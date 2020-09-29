@@ -13,6 +13,11 @@ class HashTableEntry:
 MIN_CAPACITY = 8
 
 
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+
 class HashTable:
     """
     A hash table that with `capacity` buckets
@@ -24,7 +29,8 @@ class HashTable:
     def __init__(self, capacity):
         # Your code here
         self.capacity = capacity
-        self.table = [None] * capacity
+        self.table = [LinkedList()] * capacity
+        self.counter = 0
 
     def get_num_slots(self):
         """
@@ -46,6 +52,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        return self.counter // len(self.table)
 
     def fnv1(self, key):
         """
@@ -60,8 +67,8 @@ class HashTable:
         hash = offset
 
         for i in key:
-            hash = hash * fnv_prime
-            hash = hash ^ ord(i)
+            hash *= fnv_prime
+            hash ^= ord(i)
         return hash
 
     def djb2(self, key):
@@ -71,6 +78,7 @@ class HashTable:
         Implement this, and/or FNV-1.
         """
         # Your code here
+        pass
 
     def hash_index(self, key):
         """
@@ -89,7 +97,8 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        self.table[self.hash_index(key)] = HashTableEntry(self.fnv1(key), value)
+        # Inserting the value at the hashed key
+        self.table[self.hash_index(key)] = HashTableEntry(key, value)
 
     def delete(self, key):
         """
@@ -104,7 +113,7 @@ class HashTable:
         if self.table[index]:
             self.table[index] = None
         else:
-            "Key does not exist"
+            print("Key does not exist")
 
     def get(self, key):
         """
@@ -118,6 +127,8 @@ class HashTable:
         index = self.hash_index(key)
         if self.table[index]:
             return self.table[index].value
+        else:
+            return None
 
     def resize(self, new_capacity):
         """
