@@ -138,7 +138,26 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        pass
+        self.capacity = new_capacity
+        new_list = [LinkedList()] * new_capacity
+
+        for i in self.table:
+            # variable for head of linked list
+            current = i.head
+            # start a loop that runs until next pointer is None
+            while current is not None:
+                index = self.hash_index(current.key)
+                # If current head is None, set current key/value as head
+                if new_list[index].head is None:
+                    new_list[index].head = HashTableEntry(current.key, current.value)
+                else:
+                    # Check until we find a None value to insert
+                    new_entry = HashTableEntry(current.key, current.value)
+                    new_entry.next = new_list[index].head
+                    new_list[index].head = new_entry
+                current = current.next
+                # Return our new list
+        self.table = new_list
 
 
 if __name__ == "__main__":
