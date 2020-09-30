@@ -93,10 +93,10 @@ class HashTable:
         """
         # Your code here
         index = self.hash_index(key)
+        self.counter += 1
         # if able, store it
         if self.table[index] is None:
             self.table[index] = HashTableEntry(key, value)
-            self.counter += 1
         else:
             # Avoid collisions
             node = self.table[index]
@@ -108,7 +108,6 @@ class HashTable:
                     # Traverse until next is none, then set new value
                 elif node.next is None:
                     node.next = HashTableEntry(key, value)
-                    self.counter += 1
                     break
                 node = node.next
 
@@ -162,7 +161,11 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        self.capacity = new_capacity
+        if new_capacity >= MIN_CAPACITY:
+            self.capacity = new_capacity
+        else:
+            return
+
         old_table = self.table
         self.table = [None] * self.capacity
         self.counter = 0
