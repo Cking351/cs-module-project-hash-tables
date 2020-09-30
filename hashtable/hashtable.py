@@ -107,10 +107,6 @@ class HashTable:
                 else:
                     node.next = HashTableEntry(key, value)
                     self.counter += 1
-                    break
-
-        if self.get_load_factor() > 0.7:
-            self.resize(self.capacity * 2)
 
     def delete(self, key):
         """
@@ -123,19 +119,14 @@ class HashTable:
         # Your code here
         index = self.hash_index(key)
         node = self.table[index]
-
-        if node and node.key == key:
-            self.table[index] = node.next
-            self.counter += 1
-        elif node and node.next:
+        # if node exists
+        if node is not None:
             while True:
                 if node.next.key == key:
                     node.next = node.next.next
                     self.counter -= 1
-                elif node.next:
-                    node = node.next
                 else:
-                    print("Doesnt Exist")
+                    node = node.next
         else:
             print("Doesnt Exist")
 
