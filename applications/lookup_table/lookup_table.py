@@ -2,6 +2,8 @@ import math
 # Your code here
 import random
 
+cache = {}
+
 
 def slowfun_too_slow(x, y):
     v = math.pow(x, y)
